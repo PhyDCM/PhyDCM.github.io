@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PhyDCM — Research Projects</title>
+  <meta name="description" content="PhyDCM open-source research projects for medical image analysis and AI." />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111a2d;
+      --card:#121c33;
+      --text:#e8eefc;
+      --muted:#a8b3cf;
+      --accent:#4ea1ff;
+      --border:rgba(255,255,255,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --max:1050px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(78,161,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(146,92,255,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px}
+    header{
+      padding:18px 0 22px;
+      display:flex; gap:16px; align-items:center; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; gap:14px; align-items:center;
+    }
+    .logo{
+      width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,.06);
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+    }
+    .logo img{width:100%; height:100%; object-fit:cover}
+    .title h1{margin:0; font-size:22px; letter-spacing:.2px}
+    .title p{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
+    .actions{
+      display:flex; gap:10px; align-items:center;
+    }
+    .pill{
+      padding:10px 12px; border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:13px;
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .pill strong{font-weight:700}
+    .section{
+      margin-top:18px;
+      border:1px solid var(--border);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .section-head{
+      padding:18px 18px 12px;
+      border-bottom:1px solid var(--border);
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;
+    }
+    .section-head h2{margin:0; font-size:16px}
+    .section-head p{margin:6px 0 0; color:var(--muted); font-size:13px}
+    .section-body{padding:16px 18px 18px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns: repeat(2, minmax(0, 1fr));}
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns: 1fr;}
+    }
+    .card{
+      border:1px solid var(--border);
+      background:rgba(18,28,51,.65);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      display:flex; flex-direction:column; gap:10px;
+      min-height:130px;
+    }
+    .card h3{margin:0; font-size:14.5px}
+    .card .desc{margin:0; color:var(--muted); font-size:12.7px; line-height:1.45; min-height:38px}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .tag{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      padding:6px 10px; border-radius:999px;
+    }
+    .btnrow{display:flex; gap:10px; margin-top:auto}
+    .btn{
+      flex:1;
+      display:inline-flex; justify-content:center; align-items:center; gap:8px;
+      padding:9px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:13px;
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:rgba(78,161,255,.14);
+      border-color:rgba(78,161,255,.35);
+    }
+    .btn:hover{filter:brightness(1.08)}
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-bottom:14px;
+    }
+    input[type="search"]{
+      flex:1;
+      min-width:220px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+    }
+    select{
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      outline:none;
+    }
+    .status{
+      color:var(--muted);
+      font-size:12.5px;
+    }
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12.5px;
+      text-align:center;
+      opacity:.9;
+    }
+    .note{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:12.8px;
+      line-height:1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">
+          <!-- ضع شعارك داخل pictures/logo.png -->
+          <img src="pictures/logo.png" alt="PhyDCM Logo" onerror="this.style.display='none'">
+        </div>
+        <div class="title">
+          <h1>PhyDCM — Research Projects</h1>
+          <p>Open-source projects for medical imaging analysis and AI-based diagnosis (Windows-focused).</p>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="pill" href="https://github.com/PhyDCM" target="_blank" rel="noopener">
+          <strong>GitHub</strong> / PhyDCM
+        </a>
+        <span class="pill"><strong>Pages</strong> hosted</span>
+      </div>
+    </header>
+
+    <!-- ✅ Featured projects (يدوي) -->
+    <div class="section">
+      <div class="section-head">
+        <div>
+          <h2>⭐ Featured Projects</h2>
+          <p>Curated highlights (hand-picked). These appear first.</p>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="grid">
+          <!-- 1) PhyDCM-App -->
+          <div class="card">
+            <h3>🖥️ PhyDCM App</h3>
+            <p class="desc">Windows desktop UI for medical image diagnosis & prediction (research build).</p>
+            <div class="meta">
+              <span class="tag">PyQt5</span>
+              <span class="tag">Windows</span>
+              <span class="tag">Research</span>
+            </div>
+            <div class="btnrow">
+              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM-App" target="_blank" rel="noopener">Open Repo</a>
+              <a class="btn" href="https://github.com/PhyDCM/PhyDCM-App/releases" target="_blank" rel="noopener">Releases</a>
+            </div>
+          </div>
+
+          <!-- 2) PhyDCM library (غيّر الرابط إذا ريبوك اسمه مختلف) -->
+          <div class="card">
+            <h3>⚙️ PhyDCM Core Library</h3>
+            <p class="desc">Python library for medical imaging workflows and AI inference.</p>
+            <div class="meta">
+              <span class="tag">Python</span>
+              <span class="tag">DICOM</span>
+              <span class="tag">AI</span>
+            </div>
+            <div class="btnrow">
+              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM" target="_blank" rel="noopener">Open Repo</a>
+              <a class="btn" href="https://pypi.org/" target="_blank" rel="noopener">PyPI</a>
+            </div>
+          </div>
+
+          <!-- 3) مشروع ثالث (اختياري) -->
+          <div class="card">
+            <h3>📚 Research Docs / Thesis</h3>
+            <p class="desc">Documentation, experiments, and academic materials (optional repo).</p>
+            <div class="meta">
+              <span class="tag">Docs</span>
+              <span class="tag">Experiments</span>
+            </div>
+            <div class="btnrow">
+              <a class="btn primary" href="https://github.com/PhyDCM" target="_blank" rel="noopener">Organization</a>
+              <a class="btn" href="https://github.com/PhyDCM?tab=repositories" target="_blank" rel="noopener">All Repos</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <b>Note:</b> Some releases may be experimental research builds and may not include AI dependencies, models, or datasets by default.
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ All repositories (تلقائي) -->
+    <div class="section" style="margin-top:16px;">
+      <div class="section-head">
+        <div>
+          <h2>🧩 All Repositories</h2>
+          <p>Auto-loaded from GitHub API. Includes everything public under the organization.</p>
+        </div>
+        <div class="status" id="status">Loading…</div>
+      </div>
+
+      <div class="section-body">
+        <div class="toolbar">
+          <input id="search" type="search" placeholder="Search repositories by name or description…" />
+          <select id="sort">
+            <option value="updated">Sort: Recently updated</option>
+            <option value="stars">Sort: Most stars</option>
+            <option value="name">Sort: Name (A–Z)</option>
+          </select>
+        </div>
+
+        <div class="grid" id="repos"></div>
+
+        <div class="note" id="apiNote" style="display:none;">
+          If the list doesn't load, GitHub API might be rate-limited temporarily. Try refreshing after a minute.
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2026 PhyDCM — Open Source Research Projects • Hosted on GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    // ✅ غيّر اسم المنظمة إذا احتجت
+    const ORG = "PhyDCM";
+
+    // ✅ ريبوهات نريد نخفيها من اللستة تلقائيًا
+    const EXCLUDE = new Set([
+      `${ORG}.github.io`.toLowerCase(), // موقع Pages
+      `${ORG}`.toLowerCase()            // Profile README repo (إذا عندك)
+    ]);
+
+    const $repos = document.getElementById("repos");
+    const $status = document.getElementById("status");
+    const $search = document.getElementById("search");
+    const $sort = document.getElementById("sort");
+    const $apiNote = document.getElementById("apiNote");
+
+    let all = [];
+
+    function escapeHtml(s){
+      return (s || "").replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function repoCard(r){
+      const desc = escapeHtml(r.description || "No description provided.");
+      const topics = (r.topics || []).slice(0, 3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+      const stars = r.stargazers_count ?? 0;
+      const forks = r.forks_count ?? 0;
+      const updated = new Date(r.updated_at).toLocaleDateString(undefined, {year:"numeric", month:"short", day:"2-digit"});
+
+      return `
+        <div class="card">
+          <h3>${escapeHtml(r.name)}</h3>
+          <p class="desc">${desc}</p>
+          <div class="meta">
+            <span class="tag">★ ${stars}</span>
+            <span class="tag">⑂ ${forks}</span>
+            <span class="tag">Updated ${updated}</span>
+            ${topics}
+          </div>
+          <div class="btnrow">
+            <a class="btn primary" href="${r.html_url}" target="_blank" rel="noopener">Open Repo</a>
+            <a class="btn" href="${r.html_url}/releases" target="_blank" rel="noopener">Releases</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function applyFilters(){
+      const q = ($search.value || "").trim().toLowerCase();
+      let filtered = all.filter(r => {
+        if (EXCLUDE.has((r.name || "").toLowerCase())) return false;
+        const hay = `${r.name} ${r.description || ""}`.toLowerCase();
+        return q ? hay.includes(q) : true;
+      });
+
+      const sort = $sort.value;
+      if (sort === "updated"){
+        filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+      } else if (sort === "stars"){
+        filtered.sort((a,b) => (b.stargazers_count||0) - (a.stargazers_count||0));
+      } else if (sort === "name"){
+        filtered.sort((a,b) => (a.name||"").localeCompare(b.name||""));
+      }
+
+      $repos.innerHTML = filtered.map(repoCard).join("");
+      $status.textContent = `${filtered.length} repositories`;
+    }
+
+    async function fetchAllRepos(){
+      try{
+        $status.textContent = "Loading…";
+
+        // GitHub API pagination: up to 100 per page
+        let page = 1;
+        const perPage = 100;
+        const out = [];
+
+        while(true){
+          const url = `https://api.github.com/orgs/${ORG}/repos?per_page=${perPage}&page=${page}&type=public&sort=updated`;
+          const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+
+          if (!res.ok){
+            // rate limit or other error
+            $apiNote.style.display = "block";
+            $status.textContent = `API error (${res.status})`;
+            break;
+          }
+
+          const batch = await res.json();
+          if (!Array.isArray(batch) || batch.length === 0) break;
+
+          out.push(...batch);
+          if (batch.length < perPage) break;
+          page++;
+        }
+
+        // Fetch topics requires preview header; but works with normal accept for many orgs
+        // We'll keep topics if present; otherwise fine.
+        all = out;
+        applyFilters();
+      }catch(e){
+        $apiNote.style.display = "block";
+        $status.textContent = "Failed to load";
+      }
+    }
+
+    $search.addEventListener("input", applyFilters);
+    $sort.addEventListener("change", applyFilters);
+
+    fetchAllRepos();
+  </script>
+</body>
+</html>
