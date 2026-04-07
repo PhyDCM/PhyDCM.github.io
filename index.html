@@ -4,541 +4,1364 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PhyDCM — Research Projects</title>
-  <meta name="description" content="PhyDCM open-source research projects for medical image analysis and AI." />
+  <meta name="description" content="PhyDCM open-source AI research projects for medical image analysis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Kufi+Arabic:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#111a2d;
-      --card:#121c33;
-      --text:#e8eefc;
-      --muted:#a8b3cf;
-      --accent:#4ea1ff;
-      --border:rgba(255,255,255,.10);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
-      --max:1050px;
+    /* ══════════════════════════════════════════
+       TOKENS
+    ══════════════════════════════════════════ */
+    :root {
+      --bg:       #030810;
+      --bg2:      #060e1a;
+      --surface:  rgba(6,18,42,0.72);
+      --glass:    rgba(10,25,55,0.55);
+      --border:   rgba(80,160,255,0.14);
+      --border2:  rgba(80,160,255,0.28);
+      --text:     #d6e8ff;
+      --muted:    #6a8ab0;
+      --dim:      #3a5070;
+      --cyan:     #38d9f5;
+      --blue:     #4ea1ff;
+      --violet:   #a56cff;
+      --green:    #22e8a0;
+      --red:      #ff4f7b;
+      --glow-c:   rgba(56,217,245,0.18);
+      --glow-v:   rgba(165,108,255,0.15);
+      --r:        18px;
+      --r2:       28px;
+      --max:      1080px;
+      --f-display: 'Syne', sans-serif;
+      --f-mono:    'DM Mono', monospace;
+      --f-arabic:  'Noto Kufi Arabic', sans-serif;
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(78,161,255,.25), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(146,92,255,.18), transparent 55%),
-                  var(--bg);
-      color:var(--text);
-    }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px}
-    header{
-      padding:18px 0 22px;
-      display:flex; gap:16px; align-items:center; justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .brand{
-      display:flex; gap:14px; align-items:center;
-    }
-    .logo{
-      width:52px; height:52px; border-radius:14px; background:rgba(255,255,255,.06);
-      border:1px solid var(--border);
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-    }
-    .logo img{width:100%; height:100%; object-fit:cover}
-    .title h1{margin:0; font-size:22px; letter-spacing:.2px}
-    .title p{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.35}
-    .actions{
-      display:flex; gap:10px; align-items:center;
-    }
-    .pill{
-      padding:10px 12px; border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      font-size:13px;
-      display:inline-flex; gap:8px; align-items:center;
-    }
-    .pill strong{font-weight:700}
-    .section{
-      margin-top:18px;
-      border:1px solid var(--border);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .section-head{
-      padding:18px 18px 12px;
-      border-bottom:1px solid var(--border);
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:center;
-    }
-    .section-head h2{margin:0; font-size:16px}
-    .section-head p{margin:6px 0 0; color:var(--muted); font-size:13px}
-    .section-body{padding:16px 18px 18px}
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:14px;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns: repeat(2, minmax(0, 1fr));}
-    }
-    @media (max-width: 560px){
-      .grid{grid-template-columns: 1fr;}
-    }
-    .card{
-      border:1px solid var(--border);
-      background:rgba(18,28,51,.65);
-      border-radius:14px;
-      padding:14px 14px 12px;
-      display:flex; flex-direction:column; gap:10px;
-      min-height:130px;
-    }
-    .card h3{margin:0; font-size:14.5px}
-    .card .desc{margin:0; color:var(--muted); font-size:12.7px; line-height:1.45; min-height:38px}
-    .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .tag{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      padding:6px 10px; border-radius:999px;
-    }
-    .btnrow{display:flex; gap:10px; margin-top:auto}
-    .btn{
-      flex:1;
-      display:inline-flex; justify-content:center; align-items:center; gap:8px;
-      padding:9px 10px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      font-size:13px;
-      cursor:pointer;
-    }
-    .btn.primary{
-      background:rgba(78,161,255,.14);
-      border-color:rgba(78,161,255,.35);
-    }
-    .btn:hover{filter:brightness(1.08)}
-    .toolbar{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-bottom:14px;
-    }
-    input[type="search"]{
-      flex:1;
-      min-width:220px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      outline:none;
-    }
-    select{
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      outline:none;
-    }
-    .status{
-      color:var(--muted);
-      font-size:12.5px;
-    }
-    footer{
-      margin-top:18px;
-      color:var(--muted);
-      font-size:12.5px;
-      text-align:center;
-      opacity:.9;
-    }
-    .note{
-      margin-top:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:12.8px;
-      line-height:1.5;
-    }
-    /* --- Team section (Research Team) --- */
-  .team-grid{
-    display:grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap:14px;
-  }
-  @media (max-width: 980px){
-    .team-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  }
-  @media (max-width: 650px){
-    .team-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 420px){
-    .team-grid{ grid-template-columns: 1fr; }
-  }
 
-  .person{
-    border:1px solid var(--border);
-    background:rgba(18,28,51,.65);
-    border-radius:14px;
-    padding:14px;
-    display:flex;
-    gap:12px;
-    align-items:center;
-    min-height:104px;
-  }
+    /* ══════════════════════════════════════════
+       RESET / BASE
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  .avatar{
-    width:56px; height:56px;
-    border-radius:16px;
-    border:1px solid rgba(255,255,255,.14);
-    background:rgba(255,255,255,.05);
-    overflow:hidden;
-    flex:0 0 auto;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+    html { scroll-behavior: smooth; }
 
-  .pinfo{ min-width:0; }
-  .pname{ margin:0; font-size:14.5px; line-height:1.2; }
-  .prole{ margin:6px 0 0; color:var(--muted); font-size:12.7px; line-height:1.35; }
+    body {
+      font-family: var(--f-display);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: default;
+    }
 
-  .team-note{
-    margin-top:12px;
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    justify-content:space-between;
-  }
-  .contact-pill{
-    display:inline-flex; gap:8px; align-items:center;
-    padding:10px 12px;
-    border-radius:999px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.04);
-    color:var(--text);
-    font-size:13px;
-    white-space:nowrap;
-  }
-  .contact-pill a{ color:var(--text); text-decoration:none; }
-  .contact-pill a:hover{ text-decoration:underline; }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-  .mini-muted{ color:var(--muted); font-size:12.5px; }
+    /* Arabic text support */
+    [lang="ar"], .ar { font-family: var(--f-arabic); direction: rtl; text-align: right; }
+
+    /* ══════════════════════════════════════════
+       ANIMATED BACKGROUND
+    ══════════════════════════════════════════ */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      animation: orb-drift 18s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(56,217,245,0.13), transparent 70%);
+      top: -200px; left: -180px;
+      animation-duration: 22s;
+    }
+    .orb-2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(165,108,255,0.12), transparent 70%);
+      top: 40%; right: -150px;
+      animation-duration: 18s;
+      animation-delay: -9s;
+    }
+    .orb-3 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(34,232,160,0.07), transparent 70%);
+      bottom: -100px; left: 35%;
+      animation-duration: 26s;
+      animation-delay: -5s;
+    }
+    @keyframes orb-drift {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33%  { transform: translate(40px, -30px) scale(1.05); }
+      66%  { transform: translate(-30px, 50px) scale(0.97); }
+    }
+
+    /* Grid overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(56,217,245,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56,217,245,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ══════════════════════════════════════════
+       SCAN LINE EFFECT
+    ══════════════════════════════════════════ */
+    .scan-line {
+      position: fixed;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--cyan) 20%, var(--blue) 50%, var(--violet) 80%, transparent 100%);
+      opacity: 0.35;
+      z-index: 5;
+      animation: scan 8s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes scan {
+      0%   { top: -2px; opacity: 0; }
+      5%   { opacity: 0.35; }
+      95%  { opacity: 0.35; }
+      100% { top: 100vh; opacity: 0; }
+    }
+
+    /* ══════════════════════════════════════════
+       LAYOUT
+    ══════════════════════════════════════════ */
+    .wrap {
+      position: relative;
+      z-index: 2;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+
+    /* ══════════════════════════════════════════
+       NAV / HEADER
+    ══════════════════════════════════════════ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(24px) saturate(1.6);
+      -webkit-backdrop-filter: blur(24px) saturate(1.6);
+      background: rgba(3,8,16,0.82);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo {
+      width: 40px; height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56,217,245,0.2), rgba(165,108,255,0.2));
+      border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .nav-logo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .nav-logo:hover::after { opacity: 0.15; }
+    .nav-logo img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 1; }
+    .nav-logo .logo-fallback {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--cyan);
+      letter-spacing: -0.5px;
+      position: relative; z-index: 1;
+    }
+    .nav-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--text);
+    }
+    .nav-sub {
+      font-size: 11px;
+      font-family: var(--f-mono);
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    .nav-pills {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .npill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 12px;
+      font-family: var(--f-mono);
+      transition: all 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .npill:hover {
+      border-color: var(--border2);
+      background: rgba(56,217,245,0.07);
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    .npill .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      padding: 70px 0 52px;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(56,217,245,0.3);
+      background: rgba(56,217,245,0.07);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      animation: fade-up 0.6s ease both;
+    }
+    .hero-badge .pulse {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse-ring 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%,100% { box-shadow: 0 0 0 0 rgba(56,217,245,0.6), 0 0 8px var(--cyan); }
+      50%      { box-shadow: 0 0 0 6px rgba(56,217,245,0), 0 0 8px var(--cyan); }
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      animation: fade-up 0.6s 0.1s ease both;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--blue) 45%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-desc {
+      margin-top: 18px;
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.65;
+      animation: fade-up 0.6s 0.2s ease both;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+      animation: fade-up 0.6s 0.3s ease both;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-val {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      color: var(--dim);
+      text-transform: uppercase;
+    }
+    .stat-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION WRAPPER
+    ══════════════════════════════════════════ */
+    .section {
+      margin-top: 28px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--r2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      overflow: hidden;
+      position: relative;
+      animation: fade-up 0.6s ease both;
+    }
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+      opacity: 0.4;
+    }
+    .section-head {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .sh-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+    .section-head h2 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .section-head p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .section-body { padding: 22px 24px 24px; }
+
+    /* ══════════════════════════════════════════
+       CARDS GRID
+    ══════════════════════════════════════════ */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 860px) { .grid-3 { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 540px) { .grid-3 { grid-template-columns: 1fr; } }
+
+    .pcard {
+      border: 1px solid var(--border);
+      background: rgba(6,16,38,0.6);
+      border-radius: var(--r);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2), border-color 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+    .pcard::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--glow-c), var(--glow-v));
+      opacity: 0;
+      transition: opacity 0.4s;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .pcard:hover {
+      transform: translateY(-4px);
+      border-color: var(--border2);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(56,217,245,0.1);
+    }
+    .pcard:hover::before { opacity: 1; }
+
+    .pcard-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: rgba(56,217,245,0.08);
+      border: 1px solid rgba(56,217,245,0.16);
+    }
+    .pcard h3 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.25;
+    }
+    .pcard .desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      flex: 1;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--dim);
+      letter-spacing: 0.3px;
+    }
+    .tag.t-c { border-color: rgba(56,217,245,0.25); color: var(--cyan); background: rgba(56,217,245,0.06); }
+    .tag.t-v { border-color: rgba(165,108,255,0.25); color: var(--violet); background: rgba(165,108,255,0.06); }
+    .tag.t-g { border-color: rgba(34,232,160,0.25); color: var(--green); background: rgba(34,232,160,0.06); }
+
+    .btnrow {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .btn {
+      flex: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 12.5px;
+      font-family: var(--f-mono);
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover { background: rgba(255,255,255,0.06); border-color: var(--border2); color: var(--text); text-decoration: none; }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(56,217,245,0.14), rgba(78,161,255,0.14));
+      border-color: rgba(56,217,245,0.3);
+      color: var(--cyan);
+    }
+    .btn.primary:hover {
+      background: linear-gradient(135deg, rgba(56,217,245,0.22), rgba(78,161,255,0.22));
+      box-shadow: 0 0 20px rgba(56,217,245,0.12);
+      color: var(--cyan);
+    }
+
+    .note-box {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(78,161,255,0.2);
+      background: rgba(78,161,255,0.05);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .note-box .ni { color: var(--blue); flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+
+    /* ══════════════════════════════════════════
+       TEAM
+    ══════════════════════════════════════════ */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px) { .team-grid { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width: 640px) { .team-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 400px) { .team-grid { grid-template-columns: 1fr; } }
+
+    .person {
+      border: 1px solid var(--border);
+      background: rgba(6,16,38,0.6);
+      border-radius: var(--r);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s cubic-bezier(.22,.68,0,1.2), border-color 0.3s, box-shadow 0.3s;
+    }
+    .person::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(56,217,245,0.06), rgba(165,108,255,0.06));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .person:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+    .person:hover::before { opacity: 1; }
+
+    .avatar {
+      width: 64px; height: 64px;
+      border-radius: 20px;
+      border: 2px solid var(--border2);
+      background: rgba(56,217,245,0.07);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar .av-init {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Supervisor badge */
+    .person.supervisor .avatar {
+      border-color: rgba(56,217,245,0.5);
+      box-shadow: 0 0 20px rgba(56,217,245,0.15);
+    }
+    .role-badge {
+      position: absolute;
+      top: -6px; right: -6px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+    }
+
+    .pname { font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .prole {
+      font-family: var(--f-mono);
+      font-size: 10.5px;
+      color: var(--dim);
+      letter-spacing: 0.3px;
+      line-height: 1.4;
+    }
+
+    .team-footer {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      font-family: var(--f-mono);
+      font-size: 12.5px;
+      color: var(--muted);
+      transition: all 0.25s;
+    }
+    .contact-pill:hover { border-color: var(--border2); background: rgba(56,217,245,0.06); color: var(--cyan); text-decoration: none; }
+    .contact-pill a { color: inherit; text-decoration: none; }
+
+    /* ══════════════════════════════════════════
+       REPO LIST
+    ══════════════════════════════════════════ */
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 12px; top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--dim);
+    }
+    input[type="search"] {
+      width: 100%;
+      padding: 11px 12px 11px 38px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-family: var(--f-mono);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    input[type="search"]:focus {
+      border-color: var(--border2);
+      box-shadow: 0 0 0 3px rgba(56,217,245,0.08);
+    }
+    input[type="search"]::placeholder { color: var(--dim); }
+    select {
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-family: var(--f-mono);
+      font-size: 12.5px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.25s;
+      appearance: none;
+      padding-right: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a8ab0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+    select:focus { border-color: var(--border2); }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--f-mono);
+      font-size: 11.5px;
+      color: var(--dim);
+      letter-spacing: 0.3px;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1.8s ease-in-out infinite;
+    }
+
+    /* repo card */
+    .rcard {
+      border: 1px solid var(--border);
+      background: rgba(6,14,30,0.5);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), border-color 0.28s, box-shadow 0.28s;
+    }
+    .rcard:hover {
+      transform: translateY(-3px);
+      border-color: var(--border2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .rcard h3 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .rcard .desc { color: var(--muted); font-size: 12.5px; line-height: 1.5; min-height: 36px; flex: 1; }
+    .rmeta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .rtag {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      color: var(--dim);
+    }
+
+    /* loading skeleton */
+    .skeletons { display: contents; }
+    .skel {
+      border: 1px solid var(--border);
+      background: rgba(6,14,30,0.4);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 180px;
+    }
+    .skel-line {
+      height: 12px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.05);
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+    .skel-line.w60 { width: 60%; }
+    .skel-line.w80 { width: 80%; }
+    .skel-line.w40 { width: 40%; }
+    @keyframes shimmer {
+      0%,100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 20px;
+      color: var(--dim);
+      font-family: var(--f-mono);
+      font-size: 13px;
+    }
+    .empty-state svg { opacity: 0.3; margin-bottom: 12px; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      margin-top: 28px;
+      padding: 28px 0 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--dim);
+    }
+    footer .f-brand {
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE NAV
+    ══════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      .nav-pills .npill:not(:first-child) { display: none; }
+      .hero h1 { font-size: 2rem; }
+      .hero-stats { gap: 16px; }
+      .stat-val { font-size: 20px; }
+    }
+
+    /* ══════════════════════════════════════════
+       STAGGER ANIMATIONS
+    ══════════════════════════════════════════ */
+    .stagger > * {
+      animation: fade-up 0.55s ease both;
+    }
+    .stagger > *:nth-child(1) { animation-delay: 0.05s; }
+    .stagger > *:nth-child(2) { animation-delay: 0.12s; }
+    .stagger > *:nth-child(3) { animation-delay: 0.19s; }
+    .stagger > *:nth-child(4) { animation-delay: 0.26s; }
+    .stagger > *:nth-child(5) { animation-delay: 0.33s; }
+
+    /* ══════════════════════════════════════════
+       PARTICLES CANVAS
+    ══════════════════════════════════════════ */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ══════════════════════════════════════════
+       GLOW DIVIDER
+    ══════════════════════════════════════════ */
+    .glow-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--cyan) 30%, var(--violet) 70%, transparent 100%);
+      opacity: 0.2;
+      margin: 4px 0;
+    }
+
+    /* ══════════════════════════════════════════
+       TOOLTIP
+    ══════════════════════════════════════════ */
+    [data-tip] { position: relative; }
+    [data-tip]:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      background: rgba(6,18,42,0.95);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      pointer-events: none;
+      z-index: 99;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ══════════════════════════════════════════
+       ANIMATED BORDER ON SECTION HOVER
+    ══════════════════════════════════════════ */
+    .section {
+      transition: box-shadow 0.4s;
+    }
+    .section:hover {
+      box-shadow: 0 0 0 1px rgba(56,217,245,0.08), 0 24px 60px rgba(0,0,0,0.4);
+    }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">
-          <!-- ضع شعارك داخل pictures/logo.png -->
-          <img src="pictures/logo.png" alt="PhyDCM Logo" onerror="this.style.display='none'">
-        </div>
-        <div class="title">
-          <h1>PhyDCM — Research Projects</h1>
-          <p>Open-source projects for medical imaging analysis and AI-based diagnosis (Windows-focused).</p>
-        </div>
-      </div>
 
-      <div class="actions">
-        <a class="pill" href="https://github.com/PhyDCM" target="_blank" rel="noopener">
-          <strong>GitHub</strong> / PhyDCM
+  <!-- ── Background layers ── -->
+  <canvas id="particles"></canvas>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+  <div class="scan-line"></div>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="#">
+        <div class="nav-logo">
+          <img src="pictures/logo.png" alt="PhyDCM Logo"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <span class="logo-fallback" style="display:none">Phy</span>
+        </div>
+        <div>
+          <div class="nav-title">PhyDCM</div>
+          <div class="nav-sub">MEDICAL AI · OPEN SOURCE</div>
+        </div>
+      </a>
+
+      <div class="nav-pills">
+        <span class="npill"><span class="dot"></span> Live</span>
+        <a class="npill" href="https://github.com/PhyDCM" target="_blank" rel="noopener">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
         </a>
-        <span class="pill"><strong>Pages</strong> hosted</span>
+        <a class="npill" href="mailto:phydcm.team@gmail.com">✉ Contact</a>
       </div>
-    </header>
+    </div>
+  </nav>
 
-    <!-- ✅ Featured projects (يدوي) -->
-    <div class="section">
+  <!-- ── Main content ── -->
+  <div class="wrap">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge"><span class="pulse"></span> Open-Source Research Initiative</div>
+      <h1>
+        AI-Powered <span class="grad">Medical Imaging</span><br>
+        Research Platform
+      </h1>
+      <p class="hero-desc">
+        PhyDCM delivers open-source tools for DICOM-based medical image diagnosis using
+        hybrid CNN-Transformer architectures. Built for Windows, designed for research.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-val">3+</span>
+          <span class="stat-label">Modalities</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-val">MedViT</span>
+          <span class="stat-label">Architecture</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-val">5</span>
+          <span class="stat-label">Researchers</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-val">2026</span>
+          <span class="stat-label">Active</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <div class="section" style="animation-delay:0.1s">
       <div class="section-head">
         <div>
+          <div class="sh-label">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+            Curated
+          </div>
           <h2>⭐ Featured Projects</h2>
-          <p>Curated highlights (hand-picked). These appear first.</p>
+          <p>Hand-picked highlights from the PhyDCM ecosystem.</p>
         </div>
       </div>
       <div class="section-body">
-        <div class="grid">
-          <!-- 1) PhyDCM-App -->
-          <div class="card">
-            <h3>🖥️ PhyDCM App</h3>
-            <p class="desc">Windows desktop UI for medical image diagnosis & prediction (research build).</p>
-            <div class="meta">
-              <span class="tag">PyQt5</span>
-              <span class="tag">Windows</span>
-              <span class="tag">Research</span>
+        <div class="grid-3 stagger">
+
+          <!-- App -->
+          <div class="pcard">
+            <div class="pcard-icon">🖥️</div>
+            <h3>PhyDCM App</h3>
+            <p class="desc">Windows desktop application for medical image diagnosis and AI prediction. Research-grade build with multi-planar reconstruction and inference pipeline.</p>
+            <div class="tags">
+              <span class="tag t-c">PyQt5</span>
+              <span class="tag t-v">Windows</span>
+              <span class="tag t-g">Research</span>
             </div>
             <div class="btnrow">
-              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM-App" target="_blank" rel="noopener">Open Repo</a>
+              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM-App" target="_blank" rel="noopener">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Open Repo
+              </a>
               <a class="btn" href="https://github.com/PhyDCM/PhyDCM-App/releases" target="_blank" rel="noopener">Releases</a>
             </div>
           </div>
 
-          <!-- 2) PhyDCM library (غيّر الرابط إذا ريبوك اسمه مختلف) -->
-          <div class="card">
-            <h3>⚙️ PhyDCM Core Library</h3>
-            <p class="desc">Python library for medical imaging workflows and AI inference.</p>
-            <div class="meta">
-              <span class="tag">Python</span>
-              <span class="tag">DICOM</span>
-              <span class="tag">AI</span>
+          <!-- Core Library -->
+          <div class="pcard">
+            <div class="pcard-icon">⚙️</div>
+            <h3>PhyDCM Core Library</h3>
+            <p class="desc">Python library for DICOM medical imaging workflows and AI inference. Supports MRI, CT, and PET modalities with a hybrid CNN-Transformer model (MedViT).</p>
+            <div class="tags">
+              <span class="tag t-c">Python</span>
+              <span class="tag t-v">DICOM</span>
+              <span class="tag t-g">AI / MedViT</span>
             </div>
             <div class="btnrow">
-              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM" target="_blank" rel="noopener">Open Repo</a>
+              <a class="btn primary" href="https://github.com/PhyDCM/PhyDCM" target="_blank" rel="noopener">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Open Repo
+              </a>
               <a class="btn" href="https://pypi.org/" target="_blank" rel="noopener">PyPI</a>
             </div>
           </div>
 
-          <!-- 3) مشروع ثالث (اختياري) -->
-          <div class="card">
-            <h3>📚 Research Docs / Thesis</h3>
-            <p class="desc">Documentation, experiments, and academic materials (optional repo).</p>
-            <div class="meta">
+          <!-- Research Docs -->
+          <div class="pcard">
+            <div class="pcard-icon">📚</div>
+            <h3>Research Docs / Thesis</h3>
+            <p class="desc">Academic documentation, experimental results, and materials from the PhyDCM graduate research program at the University of Al-Qadisiyah.</p>
+            <div class="tags">
               <span class="tag">Docs</span>
               <span class="tag">Experiments</span>
+              <span class="tag">Academic</span>
             </div>
             <div class="btnrow">
               <a class="btn primary" href="https://github.com/PhyDCM" target="_blank" rel="noopener">Organization</a>
               <a class="btn" href="https://github.com/PhyDCM?tab=repositories" target="_blank" rel="noopener">All Repos</a>
             </div>
           </div>
+
         </div>
 
-        <div class="note">
-          <b>Note:</b> Some releases may be experimental research builds and may not include AI dependencies, models, or datasets by default.
+        <div class="note-box">
+          <span class="ni">ℹ</span>
+          <span>Some releases are experimental research builds and may not include AI model weights, datasets, or heavy dependencies by default. See each repository's README for setup instructions.</span>
         </div>
       </div>
     </div>
 
-<!-- ✅ Research Team (يدوي) -->
-<div class="section" style="margin-top:16px;">
-  <div class="section-head">
-    <div>
-      <h2>👥 Research Team</h2>
-      <p>Student research group working on PhyDCM projects and academic materials.</p>
-    </div>
-  </div>
-
-  <div class="section-body">
-    <div class="team-grid">
-
-      <!-- Supervisor -->
-      <div class="person">
-        <div class="avatar">
-          <img src="pictures/team/supervisor_haider.jpg" alt="Supervisor" onerror="this.style.display='none'">
-        </div>
-        <div class="pinfo">
-          <h3 class="pname">Prof. Dr. Haider Saad Abdulbaqi</h3>
-          <p class="prole">Supervisor • Academic Advisor</p>
-        </div>
-      </div>
-
-      <!-- Mohammed Hadi -->
-      <div class="person">
-        <div class="avatar">
-          <img src="pictures/team/mohammed_hadi.jpg" alt="Mohammed Hadi" onerror="this.style.display='none'">
-        </div>
-        <div class="pinfo">
-          <h3 class="pname">Mohammed Hadi Raheem</h3>
-          <p class="prole">Lead Researcher • Core Developer</p>
-        </div>
-      </div>
-
-      <!-- Mohammed Hassan -->
-      <div class="person">
-        <div class="avatar">
-          <img src="pictures/team/mohammed_hassan.jpg" alt="Mohammed Hassan" onerror="this.style.display='none'">
-        </div>
-        <div class="pinfo">
-          <h3 class="pname">Mohammed Hassan Hadi</h3>
-          <p class="prole">Researcher • Documentation & Experiments</p>
-        </div>
-      </div>
-
-      <!-- Haider Ali -->
-      <div class="person">
-        <div class="avatar">
-          <img src="pictures/team/haider_ali.jpg" alt="Haider Ali" onerror="this.style.display='none'">
-        </div>
-        <div class="pinfo">
-          <h3 class="pname">Haider Ali Aboud</h3>
-          <p class="prole">Researcher • Testing & Validation</p>
-        </div>
-      </div>
-
-      <!-- Ali Hussein -->
-      <div class="person">
-        <div class="avatar">
-          <img src="pictures/team/ali_hussein.jpg" alt="Ali Hussein" onerror="this.style.display='none'">
-        </div>
-        <div class="pinfo">
-          <h3 class="pname">Ali Hussein Alawi</h3>
-          <p class="prole">Researcher • Data Prep & Support</p>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="team-note">
-      <div class="contact-pill">
-        ✉️ <a href="mailto:phydcm.team@outlook.com">phydcm.team@outlook.com</a>
-      </div>
-      <div class="mini-muted">
-        For collaboration, questions, and academic communication.
-      </div>
-    </div>
-  </div>
-</div>
-
-    
-    <!-- ✅ All repositories (تلقائي) -->
-    <div class="section" style="margin-top:16px;">
+    <!-- Research Team -->
+    <div class="section" style="animation-delay:0.2s">
       <div class="section-head">
         <div>
-          <h2>🧩 All Repositories</h2>
-          <p>Auto-loaded from GitHub API. Includes everything public under the organization.</p>
+          <div class="sh-label">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+            Team
+          </div>
+          <h2>👥 Research Team</h2>
+          <p>Student research group working on PhyDCM at University of Al-Qadisiyah, College of Science, Department of Medical Physics.</p>
         </div>
-        <div class="status" id="status">Loading…</div>
+      </div>
+      <div class="section-body">
+        <div class="team-grid stagger">
+
+          <!-- Supervisor -->
+          <div class="person supervisor">
+            <div class="avatar" style="border-color:rgba(56,217,245,0.5); box-shadow:0 0 20px rgba(56,217,245,0.12);">
+              <img src="pictures/team/supervisor_haider.jpg" alt="Prof. Haider Saad"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="av-init" style="display:none">HS</span>
+              <div class="role-badge" title="Supervisor">★</div>
+            </div>
+            <div>
+              <div class="pname">Prof. Dr. Haider Saad Abdulbaqi</div>
+              <div class="prole" style="color:var(--cyan)">Supervisor · Advisor</div>
+            </div>
+          </div>
+
+          <!-- Mohammed Hadi -->
+          <div class="person">
+            <div class="avatar">
+              <img src="pictures/team/mohammed_hadi.jpg" alt="Mohammed Hadi"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="av-init" style="display:none">MH</span>
+            </div>
+            <div>
+              <div class="pname">Mohammed Hadi Raheem</div>
+              <div class="prole">Lead Researcher · Core Dev</div>
+            </div>
+          </div>
+
+          <!-- Mohammed Hassan -->
+          <div class="person">
+            <div class="avatar">
+              <img src="pictures/team/mohammed_hassan.jpg" alt="Mohammed Hassan"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="av-init" style="display:none">MH</span>
+            </div>
+            <div>
+              <div class="pname">Mohammed Hassan Hadi</div>
+              <div class="prole">Researcher · Docs & Experiments</div>
+            </div>
+          </div>
+
+          <!-- Haider Ali -->
+          <div class="person">
+            <div class="avatar">
+              <img src="pictures/team/haider_ali.jpg" alt="Haider Ali"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="av-init" style="display:none">HA</span>
+            </div>
+            <div>
+              <div class="pname">Haider Ali Aboud</div>
+              <div class="prole">Researcher · Testing & Validation</div>
+            </div>
+          </div>
+
+          <!-- Ali Hussein -->
+          <div class="person">
+            <div class="avatar">
+              <img src="pictures/team/ali_hussein.jpg" alt="Ali Hussein"
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="av-init" style="display:none">AH</span>
+            </div>
+            <div>
+              <div class="pname">Ali Hussein Alawi</div>
+              <div class="prole">Researcher · Data Prep & Support</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="team-footer">
+          <a class="contact-pill" href="mailto:phydcm.team@gmail.com">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            phydcm.team@gmail.com
+          </a>
+          <span style="font-family:var(--f-mono); font-size:11.5px; color:var(--dim)">
+            Open for collaboration & academic communication
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- All Repositories -->
+    <div class="section" style="animation-delay:0.3s">
+      <div class="section-head">
+        <div>
+          <div class="sh-label">
+            <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+            Auto-loaded
+          </div>
+          <h2>🧩 All Repositories</h2>
+          <p>Fetched live from the GitHub API. Everything public under the PhyDCM organization.</p>
+        </div>
+        <div class="status-bar" id="status">
+          <span class="status-dot"></span>
+          <span id="status-text">Loading…</span>
+        </div>
       </div>
 
       <div class="section-body">
         <div class="toolbar">
-          <input id="search" type="search" placeholder="Search repositories by name or description…" />
-          <select id="sort">
-            <option value="updated">Sort: Recently updated</option>
-            <option value="stars">Sort: Most stars</option>
-            <option value="name">Sort: Name (A–Z)</option>
+          <div class="search-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="search" type="search" placeholder="Search repositories…" aria-label="Search repositories" />
+          </div>
+          <select id="sort" aria-label="Sort repositories">
+            <option value="updated">Recently Updated</option>
+            <option value="stars">Most Stars</option>
+            <option value="name">Name A–Z</option>
           </select>
         </div>
 
-        <div class="grid" id="repos"></div>
+        <div class="grid-3" id="repos">
+          <!-- Loading skeletons -->
+          <div class="skel">
+            <div class="skel-line w60"></div>
+            <div class="skel-line w80"></div>
+            <div class="skel-line w40"></div>
+          </div>
+          <div class="skel">
+            <div class="skel-line w80"></div>
+            <div class="skel-line w60"></div>
+            <div class="skel-line w40"></div>
+          </div>
+          <div class="skel">
+            <div class="skel-line w40"></div>
+            <div class="skel-line w80"></div>
+            <div class="skel-line w60"></div>
+          </div>
+        </div>
 
-        <div class="note" id="apiNote" style="display:none;">
-          If the list doesn't load, GitHub API might be rate-limited temporarily. Try refreshing after a minute.
+        <div class="note-box" id="apiNote" style="display:none; margin-top:16px;">
+          <span class="ni">⚠</span>
+          <span>GitHub API may be rate-limited. Try refreshing after a minute or check your connection.</span>
         </div>
       </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-      © 2026 PhyDCM — Open Source Research Projects • Hosted on GitHub Pages
+      <span>© 2026 <span class="f-brand">PhyDCM</span> · Open-Source Research</span>
+      <span>Hosted on GitHub Pages · Medical Physics Dept. · Al-Qadisiyah University, Iraq</span>
     </footer>
-  </div>
 
+  </div><!-- /.wrap -->
+
+  <!-- ══════════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════════ -->
   <script>
-    // ✅ غيّر اسم المنظمة إذا احتجت
-    const ORG = "PhyDCM";
+  /* ── Particles canvas ── */
+  (function(){
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, pts = [];
+    const N = 70;
+    const CONN = 130;
 
-    // ✅ ريبوهات نريد نخفيها من اللستة تلقائيًا
+    function resize(){
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    for(let i = 0; i < N; i++){
+      pts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+        r: Math.random() * 1.5 + 0.5
+      });
+    }
+
+    function draw(){
+      ctx.clearRect(0, 0, W, H);
+      for(let i = 0; i < N; i++){
+        const p = pts[i];
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0) p.x = W; if(p.x > W) p.x = 0;
+        if(p.y < 0) p.y = H; if(p.y > H) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(56,217,245,0.35)';
+        ctx.fill();
+
+        for(let j = i+1; j < N; j++){
+          const q = pts[j];
+          const dx = p.x-q.x, dy = p.y-q.y;
+          const d = Math.sqrt(dx*dx+dy*dy);
+          if(d < CONN){
+            const a = (1 - d/CONN) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle = `rgba(78,161,255,${a})`;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ── GitHub repos ── */
+  (function(){
+    const ORG = "PhyDCM";
     const EXCLUDE = new Set([
-      `${ORG}.github.io`.toLowerCase(), // موقع Pages
-      `${ORG}`.toLowerCase()            // Profile README repo (إذا عندك)
+      `${ORG}.github.io`.toLowerCase(),
+      `${ORG}`.toLowerCase()
     ]);
 
-    const $repos = document.getElementById("repos");
-    const $status = document.getElementById("status");
-    const $search = document.getElementById("search");
-    const $sort = document.getElementById("sort");
+    const $repos   = document.getElementById("repos");
+    const $statusT = document.getElementById("status-text");
+    const $search  = document.getElementById("search");
+    const $sort    = document.getElementById("sort");
     const $apiNote = document.getElementById("apiNote");
 
     let all = [];
 
-    function escapeHtml(s){
-      return (s || "").replace(/[&<>"']/g, c => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-      }[c]));
+    function esc(s){
+      return (s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
 
     function repoCard(r){
-      const desc = escapeHtml(r.description || "No description provided.");
-      const topics = (r.topics || []).slice(0, 3).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("");
+      const desc = esc(r.description || "No description provided.");
+      const topics = (r.topics||[]).slice(0,3).map(t=>`<span class="rtag">${esc(t)}</span>`).join('');
       const stars = r.stargazers_count ?? 0;
       const forks = r.forks_count ?? 0;
-      const updated = new Date(r.updated_at).toLocaleDateString(undefined, {year:"numeric", month:"short", day:"2-digit"});
-
+      const lang  = r.language ? `<span class="rtag">${esc(r.language)}</span>` : '';
+      const updated = new Date(r.updated_at).toLocaleDateString('en',{year:'numeric',month:'short',day:'2-digit'});
       return `
-        <div class="card">
-          <h3>${escapeHtml(r.name)}</h3>
-          <p class="desc">${desc}</p>
-          <div class="meta">
-            <span class="tag">★ ${stars}</span>
-            <span class="tag">⑂ ${forks}</span>
-            <span class="tag">Updated ${updated}</span>
-            ${topics}
-          </div>
-          <div class="btnrow">
-            <a class="btn primary" href="${r.html_url}" target="_blank" rel="noopener">Open Repo</a>
-            <a class="btn" href="${r.html_url}/releases" target="_blank" rel="noopener">Releases</a>
-          </div>
+      <div class="rcard">
+        <h3>${esc(r.name)}</h3>
+        <p class="desc">${desc}</p>
+        <div class="rmeta">
+          ${lang}
+          <span class="rtag">★ ${stars}</span>
+          <span class="rtag">⑂ ${forks}</span>
+          <span class="rtag">${updated}</span>
+          ${topics}
         </div>
-      `;
+        <div class="btnrow">
+          <a class="btn primary" href="${r.html_url}" target="_blank" rel="noopener">Open Repo</a>
+          <a class="btn" href="${r.html_url}/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>`;
     }
 
     function applyFilters(){
-      const q = ($search.value || "").trim().toLowerCase();
-      let filtered = all.filter(r => {
-        if (EXCLUDE.has((r.name || "").toLowerCase())) return false;
-        const hay = `${r.name} ${r.description || ""}`.toLowerCase();
+      const q = ($search.value||"").trim().toLowerCase();
+      let filtered = all.filter(r=>{
+        if(EXCLUDE.has((r.name||"").toLowerCase())) return false;
+        const hay = `${r.name} ${r.description||""}`.toLowerCase();
         return q ? hay.includes(q) : true;
       });
-
       const sort = $sort.value;
-      if (sort === "updated"){
-        filtered.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
-      } else if (sort === "stars"){
-        filtered.sort((a,b) => (b.stargazers_count||0) - (a.stargazers_count||0));
-      } else if (sort === "name"){
-        filtered.sort((a,b) => (a.name||"").localeCompare(b.name||""));
-      }
+      if(sort==='updated') filtered.sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
+      else if(sort==='stars') filtered.sort((a,b)=>(b.stargazers_count||0)-(a.stargazers_count||0));
+      else if(sort==='name') filtered.sort((a,b)=>(a.name||"").localeCompare(b.name||""));
 
-      $repos.innerHTML = filtered.map(repoCard).join("");
-      $status.textContent = `${filtered.length} repositories`;
+      if(filtered.length===0){
+        $repos.innerHTML = `
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div>No repositories found for <em>"${esc($search.value)}"</em></div>
+          </div>`;
+      } else {
+        $repos.innerHTML = filtered.map(repoCard).join('');
+        /* stagger entrance */
+        [...$repos.children].forEach((el,i)=>{
+          el.style.animationDelay = `${i*0.06}s`;
+          el.style.animation = 'fade-up 0.45s ease both';
+        });
+      }
+      $statusT.textContent = `${filtered.length} repositories`;
     }
 
-    async function fetchAllRepos(){
+    async function fetchRepos(){
       try{
-        $status.textContent = "Loading…";
-
-        // GitHub API pagination: up to 100 per page
-        let page = 1;
-        const perPage = 100;
-        const out = [];
-
+        $statusT.textContent = 'Fetching…';
+        let page=1, out=[];
         while(true){
-          const url = `https://api.github.com/orgs/${ORG}/repos?per_page=${perPage}&page=${page}&type=public&sort=updated`;
-          const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
-
-          if (!res.ok){
-            // rate limit or other error
-            $apiNote.style.display = "block";
-            $status.textContent = `API error (${res.status})`;
-            break;
-          }
-
+          const url=`https://api.github.com/orgs/${ORG}/repos?per_page=100&page=${page}&type=public&sort=updated`;
+          const res = await fetch(url,{headers:{"Accept":"application/vnd.github+json"}});
+          if(!res.ok){ $apiNote.style.display='flex'; $statusT.textContent=`API error (${res.status})`; break; }
           const batch = await res.json();
-          if (!Array.isArray(batch) || batch.length === 0) break;
-
+          if(!Array.isArray(batch)||batch.length===0) break;
           out.push(...batch);
-          if (batch.length < perPage) break;
+          if(batch.length<100) break;
           page++;
         }
-
-        // Fetch topics requires preview header; but works with normal accept for many orgs
-        // We'll keep topics if present; otherwise fine.
         all = out;
         applyFilters();
       }catch(e){
-        $apiNote.style.display = "block";
-        $status.textContent = "Failed to load";
+        $apiNote.style.display='flex';
+        $statusT.textContent='Failed to load';
+        $repos.innerHTML='';
       }
     }
 
-    $search.addEventListener("input", applyFilters);
-    $sort.addEventListener("change", applyFilters);
-
-    fetchAllRepos();
+    $search.addEventListener('input', applyFilters);
+    $sort.addEventListener('change', applyFilters);
+    fetchRepos();
+  })();
   </script>
 </body>
 </html>
